@@ -4,6 +4,8 @@ from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED
 
 
 class Player(CircleShape):
+    containers: tuple[pygame.sprite.Group, pygame.sprite.Group]
+
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
@@ -17,7 +19,8 @@ class Player(CircleShape):
         return [a, b, c]
 
     def draw(self, screen):
-        pygame.draw.polygon(screen, (255, 255, 255), self.triangle(), 2)
+        triangle_points = [(point.x, point.y) for point in self.triangle()]  # type: ignore
+        pygame.draw.polygon(screen, (255, 255, 255), triangle_points, 2)
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
